@@ -19,9 +19,9 @@ import java.util.List;
  * Created by geoolekom on 06.12.16.
  */
 
-public class PostSummaryAdapter extends ArrayAdapter<Post> {
+public class FeedPostAdapter extends ArrayAdapter<Post> {
 
-    public PostSummaryAdapter(Context context, List<Post> posts) {
+    public FeedPostAdapter(Context context, List<Post> posts) {
         super(context, R.layout.feed_item, posts);
     }
 

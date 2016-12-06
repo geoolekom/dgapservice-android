@@ -5,14 +5,20 @@ package com.geoolekom.dgapservice.models;
  */
 
 public class Post {
+    private int id;
     private String title;
     private String entry;
     private String author;
 
-    public Post(String title, String entry, String author) {
+    public Post(int id, String title, String entry, String author) {
         this.title = title;
         this.entry = entry;
         this.author = author;
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getTitle() {

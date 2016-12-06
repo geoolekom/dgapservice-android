@@ -1,19 +1,19 @@
 package com.geoolekom.dgapservice.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.geoolekom.dgapservice.R;
-import com.geoolekom.dgapservice.adapters.PostSummaryAdapter;
+import com.geoolekom.dgapservice.adapters.FeedPostAdapter;
 import com.geoolekom.dgapservice.models.Post;
 import com.geoolekom.util.JsonFactory;
+import com.geoolekom.util.UrlFactory;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -36,18 +36,18 @@ public class FeedActivity extends Activity {
         LinearLayout layout = (LinearLayout) findViewById(R.id.feed);
         List<Post> posts = getPosts();
 
-        PostSummaryAdapter adapter = new PostSummaryAdapter(this, posts);
+        final FeedPostAdapter adapter = new FeedPostAdapter(this, posts);
         list = new ListView(this);
         list.setAdapter(adapter);
-        /*
+
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View view, int position, long id) {
-                TextView text = (TextView) view;
-                popMessage(text.getText());
+                Intent intent = new Intent(FeedActivity.this, PostActivity.class);
+                intent.putExtra("post_id", adapter.getItem(position).getId());
+                startActivity(intent);
             }
         });
-        */
 
         layout.addView(list, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
     }
@@ -63,11 +63,12 @@ public class FeedActivity extends Activity {
                 @Override
                 public void run() {
                     try {
-                        JSONObject postsJson = JsonFactory.getFromUrl("http://a4713ae2.ngrok.io/api/posts/");
+                        JSONObject postsJson = JsonFactory.getFromUrl(UrlFactory.getUrl() + "/api/posts");
                         JSONArray postsArray = postsJson.getJSONArray("posts");
                         for (int i = postsArray.length() - 1; i >= 0; i--) {
                             JSONObject postData = postsArray.getJSONObject(i);
                             posts.add(new Post(
+                                    postData.getInt("id"),
                                     postData.getString("title"),
                                     postData.getString("entry"),
                                     postData.getString("author")
