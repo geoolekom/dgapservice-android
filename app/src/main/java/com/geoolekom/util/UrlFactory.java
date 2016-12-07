@@ -5,7 +5,7 @@ package com.geoolekom.util;
  */
 
 public class UrlFactory {
-    private static final String url = " http://d6e37966.ngrok.io";
+    private static final String url = "http://16cdbd92.ngrok.io";
 
     public static String getUrl() {
         return url;

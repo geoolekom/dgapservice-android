@@ -2,8 +2,10 @@ package com.geoolekom.dgapservice.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.geoolekom.dgapservice.R;
@@ -48,6 +50,16 @@ public class PostActivity extends Activity {
         final DetailPostAdapter adapter = new DetailPostAdapter(this, comments);
         ListView list = new ListView(this);
         list.setAdapter(adapter);
+/*
+        CardView postView = (CardView) findViewById(R.id.post_card);
+        TextView titleView = (TextView) postView.findViewById(R.id.post_title);
+        TextView entryView = (TextView) postView.findViewById(R.id.post_entry);
+
+        titleView.setText(post.getTitle());
+        entryView.setText(post.getEntry());
+
+        layout.addView(postView);
+*/
         layout.addView(list, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
     }
