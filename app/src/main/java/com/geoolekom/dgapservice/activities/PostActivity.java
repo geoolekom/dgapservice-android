@@ -2,7 +2,9 @@ package com.geoolekom.dgapservice.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
+import android.text.Html;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -10,7 +12,6 @@ import android.widget.Toast;
 
 import com.geoolekom.dgapservice.R;
 import com.geoolekom.dgapservice.adapters.DetailPostAdapter;
-import com.geoolekom.dgapservice.adapters.FeedPostAdapter;
 import com.geoolekom.dgapservice.models.Comment;
 import com.geoolekom.dgapservice.models.Post;
 import com.geoolekom.util.JsonFactory;
@@ -20,7 +21,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -41,25 +41,23 @@ public class PostActivity extends Activity {
         super.onCreate(savedInstanceState);
         Bundle initBundle = getIntent().getExtras();
         int postId = initBundle.getInt("post_id");
-        popMessage(Integer.toString(postId));
-        setContentView(R.layout.post);
+        setContentView(R.layout.post_detail);
 
-        getPost(postId);
+        savePost(postId);
         LinearLayout layout = (LinearLayout) findViewById(R.id.post_detail);
 
         final DetailPostAdapter adapter = new DetailPostAdapter(this, comments);
         ListView list = new ListView(this);
         list.setAdapter(adapter);
-/*
-        CardView postView = (CardView) findViewById(R.id.post_card);
+
+        View postView = LayoutInflater.from(this).inflate(R.layout.post_item, layout, false);
         TextView titleView = (TextView) postView.findViewById(R.id.post_title);
         TextView entryView = (TextView) postView.findViewById(R.id.post_entry);
 
         titleView.setText(post.getTitle());
-        entryView.setText(post.getEntry());
+        entryView.setText(Html.fromHtml(post.getEntry()));
 
         layout.addView(postView);
-*/
         layout.addView(list, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
     }
@@ -68,7 +66,7 @@ public class PostActivity extends Activity {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 
-    private void getPost(final int id) {
+    private void savePost(final int id) {
         try {
             post = executor.submit(new Callable<Post>() {
                 @Override

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Карманный ФОПФ</string>
+    <string name="feed_view_name">Новости</string>
+    <string name="post_view_name">Пост</string>
 </resources>
